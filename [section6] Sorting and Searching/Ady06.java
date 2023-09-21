@@ -1,54 +1,43 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.StringTokenizer;
 
-public class Main4_3 {
+public class Main{
 
-    public static List<Integer> solution(int n, int k, int[] arr) {
-        List<Integer> answer = new ArrayList<>();
-        Map<Integer, Integer> map = new HashMap<>();
+    public static void solution(int n, int[] arr) {
 
-        for (int i = 0; i < k-1; i++) {
-            map.put(arr[i], map.getOrDefault(arr[i], 0) + 1);
-        }
-
-        int left = 0;
-        for (int right = k-1; right < n; right++) {
-
-            map.put(arr[right], map.getOrDefault(arr[right], 0) + 1);
-            answer.add(map.size());
-
-            map.put(arr[left], map.get(arr[left]) - 1);
-
-            if (map.get(arr[left]) == 0) {
-                map.remove(arr[left]);
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    swap(arr, j, j+1);
+                }
             }
-
-            left++;
         }
+    }
 
-        return answer;
+    private static void swap(int[] arr, int n1, int n2) {
+        int temp = arr[n1];
+        arr[n1] = arr[n2];
+        arr[n2] = temp;
     }
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        StringTokenizer st = new StringTokenizer(br.readLine());
-
-        int n = Integer.parseInt(st.nextToken());
-        int k = Integer.parseInt(st.nextToken());
+        int n = Integer.parseInt(br.readLine());
         int[] arr = new int[n];
 
-        st = new StringTokenizer(br.readLine());
-
+        StringTokenizer st = new StringTokenizer(br.readLine());
         for (int i = 0; st.hasMoreTokens(); i++) {
             arr[i] = Integer.parseInt(st.nextToken());
         }
 
-        List<Integer> answer = solution(n, k, arr);
-        for (Integer i : answer) {
+        solution(n, arr);
+
+        for (int i : arr) {
             System.out.print(i + " ");
         }
+
     }
 }
